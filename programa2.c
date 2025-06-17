@@ -3,11 +3,12 @@
 #include <string.h>
 #include <time.h>
 
-typedef struct   {
-
+typedef struct {
+    
     long long timestamp;
     char sensor[50];
     char valor[50];
+    
 } Leitura;
 
 time_t converter_para_timestamp(int dia, int mes, int ano, int hora, int min, int seg) {

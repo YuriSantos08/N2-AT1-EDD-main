@@ -13,7 +13,7 @@ time_t gerar_timestamp_aleatorio(struct tm *inicial, struct tm *final) {
 
     time_t timestamp_final = mktime(final);
     if (timestamp_final == -1) {
-        printf("Data final invalida.\n");
+        printf("Data final invlida.\n");
         return -1;
     }
 

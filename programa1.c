@@ -10,13 +10,12 @@ typedef struct
     
 } Leitura;
 
-int sensor_existente(const char *nome) {
-    return (
-        strcmp(nome, "temp") == 0 ||
-        strcmp(nome, "umidade") == 0 ||
-        strcmp(nome, "status") == 0 ||
-        strcmp(nome, "ligado") == 0
-    );
+int comparacao_timestamp_desc(const void *a, const void *b) {
+    Leitura *l1 = (Leitura *)a;
+    Leitura *l2 = (Leitura *)b;
+    if (l1->timestamp < l2->timestamp) return 1;
+    else if (l1->timestamp > l2->timestamp) return -1;
+    else return 0;
 }
 
 FILE *abrir_arquivo_sensor(const char *sensor) {
@@ -28,14 +27,6 @@ FILE *abrir_arquivo_sensor(const char *sensor) {
         exit(1);
     }
     return final;
-}
-
-int comparacao_timestamp_desc(const void *a, const void *b) {
-    Leitura *l1 = (Leitura *)a;
-    Leitura *l2 = (Leitura *)b;
-    if (l1->timestamp < l2->timestamp) return 1;
-    else if (l1->timestamp > l2->timestamp) return -1;
-    else return 0;
 }
 
 int main(int argc, char *argv[]) {
@@ -50,9 +41,9 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    Leitura temp_leituras[2000], umidade_leituras[2000];
-    Leitura status_leituras[2000], ligado_leituras[2000];
-    int count_temp = 0, count_umidade = 0, count_status = 0, count_ligado = 0;
+    Leitura sensor1_leituras[2000], sensor2_leituras[2000];
+    Leitura sensor3_leituras[2000], sensor4_leituras[2000];
+    int count1 = 0, count2 = 0, count3 = 0, count4 = 0;
 
     char linha[256];
 
@@ -64,62 +55,51 @@ int main(int argc, char *argv[]) {
             continue;
         }
 
-        if (!sensor_existente(l.id_sensor)) {
-            printf("Sensor desconhecido: %s\n", l.id_sensor);
-            continue;
+        if (strcmp(l.id_sensor, "sensor1") == 0) {
+            if (count1 < 2000)
+                sensor1_leituras[count1++] = l;
         }
-
-        if (strcmp(l.id_sensor, "temp") == 0) {
-            if (count_temp < 2000)
-                temp_leituras[count_temp++] = l;
-            else
-                printf("Limite do temp alcançado!\n");
+        else if (strcmp(l.id_sensor, "sensor2") == 0) {
+            if (count2 < 2000)
+                sensor2_leituras[count2++] = l;
         }
-        else if (strcmp(l.id_sensor, "umidade") == 0) {
-            if (count_umidade < 2000)
-                umidade_leituras[count_umidade++] = l;
-            else
-                printf("Limite do umidade alcançado!\n");
+        else if (strcmp(l.id_sensor, "sensor3") == 0) {
+            if (count3 < 2000)
+                sensor3_leituras[count3++] = l;
         }
-        else if (strcmp(l.id_sensor, "status") == 0) {
-            if (count_status < 2000)
-                status_leituras[count_status++] = l;
-            else
-                printf("Limite do status alcançado!\n");
+        else if (strcmp(l.id_sensor, "sensor4") == 0) {
+            if (count4 < 2000)
+                sensor4_leituras[count4++] = l;
         }
-        else if (strcmp(l.id_sensor, "ligado") == 0) {
-            if (count_ligado < 2000)
-                ligado_leituras[count_ligado++] = l;
-            else
-                printf("Limite do ligado alcançado!\n");
+        else {
         }
     }
     fclose(arq);
 
-    qsort(temp_leituras, count_temp, sizeof(Leitura), comparacao_timestamp_desc);
-    qsort(umidade_leituras, count_umidade, sizeof(Leitura), comparacao_timestamp_desc);
-    qsort(status_leituras, count_status, sizeof(Leitura), comparacao_timestamp_desc);
-    qsort(ligado_leituras, count_ligado, sizeof(Leitura), comparacao_timestamp_desc);
+    qsort(sensor1_leituras, count1, sizeof(Leitura), comparacao_timestamp_desc);
+    qsort(sensor2_leituras, count2, sizeof(Leitura), comparacao_timestamp_desc);
+    qsort(sensor3_leituras, count3, sizeof(Leitura), comparacao_timestamp_desc);
+    qsort(sensor4_leituras, count4, sizeof(Leitura), comparacao_timestamp_desc);
 
-    FILE *arq_temp = abrir_arquivo_sensor("temp");
-    for (int i = 0; i < count_temp; i++)
-        fprintf(arq_temp, "%lld %s %s\n", temp_leituras[i].timestamp, temp_leituras[i].id_sensor, temp_leituras[i].valor);
-    fclose(arq_temp);
+    FILE *arq_sensor1 = abrir_arquivo_sensor("sensor1");
+    for (int i = 0; i < count1; i++)
+        fprintf(arq_sensor1, "%lld %s %s\n", sensor1_leituras[i].timestamp, sensor1_leituras[i].id_sensor, sensor1_leituras[i].valor);
+    fclose(arq_sensor1);
 
-    FILE *arq_umidade = abrir_arquivo_sensor("umidade");
-    for (int i = 0; i < count_umidade; i++)
-        fprintf(arq_umidade, "%lld %s %s\n", umidade_leituras[i].timestamp, umidade_leituras[i].id_sensor, umidade_leituras[i].valor);
-    fclose(arq_umidade);
+    FILE *arq_sensor2 = abrir_arquivo_sensor("sensor2");
+    for (int i = 0; i < count2; i++)
+        fprintf(arq_sensor2, "%lld %s %s\n", sensor2_leituras[i].timestamp, sensor2_leituras[i].id_sensor, sensor2_leituras[i].valor);
+    fclose(arq_sensor2);
 
-    FILE *arq_status = abrir_arquivo_sensor("status");
-    for (int i = 0; i < count_status; i++)
-        fprintf(arq_status, "%lld %s %s\n", status_leituras[i].timestamp, status_leituras[i].id_sensor, status_leituras[i].valor);
-    fclose(arq_status);
+    FILE *arq_sensor3 = abrir_arquivo_sensor("sensor3");
+    for (int i = 0; i < count3; i++)
+        fprintf(arq_sensor3, "%lld %s %s\n", sensor3_leituras[i].timestamp, sensor3_leituras[i].id_sensor, sensor3_leituras[i].valor);
+    fclose(arq_sensor3);
 
-    FILE *arq_ligado = abrir_arquivo_sensor("ligado");
-    for (int i = 0; i < count_ligado; i++)
-        fprintf(arq_ligado, "%lld %s %s\n", ligado_leituras[i].timestamp, ligado_leituras[i].id_sensor, ligado_leituras[i].valor);
-    fclose(arq_ligado);
+    FILE *arq_sensor4 = abrir_arquivo_sensor("sensor4");
+    for (int i = 0; i < count4; i++)
+        fprintf(arq_sensor4, "%lld %s %s\n", sensor4_leituras[i].timestamp, sensor4_leituras[i].id_sensor, sensor4_leituras[i].valor);
+    fclose(arq_sensor4);
 
     printf("Leituras foram separadas e ordenadas em ordem decrescente com sucesso.\n");
     return 0;
