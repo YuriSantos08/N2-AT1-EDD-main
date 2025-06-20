@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 typedef struct 
 {
     long long timestamp;
@@ -21,8 +20,10 @@ int comparacao_timestamp_desc(const void *a, const void *b) {
 FILE *abrir_arquivo_sensor(const char *sensor) {
     char nome_arquivo[64];
     sprintf(nome_arquivo, "%s.txt", sensor);
+
     FILE *final = fopen(nome_arquivo, "w");
     if (final == NULL) {
+
         printf("Erro ao abrir arquivo para sensor: %s\n", sensor);
         exit(1);
     }
@@ -74,6 +75,7 @@ int main(int argc, char *argv[]) {
         else {
         }
     }
+    
     fclose(arq);
 
     qsort(sensor1_leituras, count1, sizeof(Leitura), comparacao_timestamp_desc);
@@ -84,23 +86,28 @@ int main(int argc, char *argv[]) {
     FILE *arq_sensor1 = abrir_arquivo_sensor("sensor1");
     for (int i = 0; i < count1; i++)
         fprintf(arq_sensor1, "%lld %s %s\n", sensor1_leituras[i].timestamp, sensor1_leituras[i].id_sensor, sensor1_leituras[i].valor);
-    fclose(arq_sensor1);
+    
+        fclose(arq_sensor1);
 
     FILE *arq_sensor2 = abrir_arquivo_sensor("sensor2");
     for (int i = 0; i < count2; i++)
         fprintf(arq_sensor2, "%lld %s %s\n", sensor2_leituras[i].timestamp, sensor2_leituras[i].id_sensor, sensor2_leituras[i].valor);
-    fclose(arq_sensor2);
+    
+        fclose(arq_sensor2);
 
     FILE *arq_sensor3 = abrir_arquivo_sensor("sensor3");
     for (int i = 0; i < count3; i++)
         fprintf(arq_sensor3, "%lld %s %s\n", sensor3_leituras[i].timestamp, sensor3_leituras[i].id_sensor, sensor3_leituras[i].valor);
-    fclose(arq_sensor3);
+    
+        fclose(arq_sensor3);
 
     FILE *arq_sensor4 = abrir_arquivo_sensor("sensor4");
     for (int i = 0; i < count4; i++)
         fprintf(arq_sensor4, "%lld %s %s\n", sensor4_leituras[i].timestamp, sensor4_leituras[i].id_sensor, sensor4_leituras[i].valor);
-    fclose(arq_sensor4);
+    
+        fclose(arq_sensor4);
 
     printf("Leituras foram separadas e ordenadas em ordem decrescente com sucesso.\n");
+    
     return 0;
 }

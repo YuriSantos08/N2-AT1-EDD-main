@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
 typedef struct {
     
     long long timestamp;
@@ -22,6 +21,7 @@ time_t converter_para_timestamp(int dia, int mes, int ano, int hora, int min, in
     t.tm_isdst = -1;
     time_t ts = mktime(&t);
     if (ts == -1) {
+        
         printf("Data invalida.\n");
         exit(1);
     }

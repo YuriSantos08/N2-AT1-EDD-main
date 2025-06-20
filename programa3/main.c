@@ -5,7 +5,10 @@
 #include "sensores.h"
 
 int main(int argc, char *argv[]) {
+
+
     if ((argc - 13) % 2 != 0) {
+        
         printf("Erro nos argumentos passados: cada sensor deve vir com um tipo (ex: temp CONJ_Z(para))\n");
         return 1;
     }

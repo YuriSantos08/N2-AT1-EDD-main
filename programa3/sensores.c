@@ -54,19 +54,20 @@ void converter_tipo(const char *tipo_entrada, char *tipo_convertido) {
 
 void gerar_valor_aleatorio_por_tipo(const char *tipo, char *saida) {
     if (strcmp(tipo, "int") == 0) {
-        int valor = rand() % 1000;
+            int valor = rand() % 1000;
         sprintf(saida, "%d", valor);
     } else if (strcmp(tipo, "float") == 0) {
-        float valor = (float)(rand() % 10000) / 100.0;
+             float valor = (float)(rand() % 10000) / 100.0;
         sprintf(saida, "%.2f", valor);
     } else if (strcmp(tipo, "bool") == 0) {
-        int b = rand() % 2;
+            int b = rand() % 2;
         strcpy(saida, b ? "true" : "false");
     } else if (strcmp(tipo, "string") == 0) {
-        const char *opcoes[] = {"OK", "ERRO", "ALERTA"};
+            const char *opcoes[] = {"OK", "ERRO", "ALERTA"};
         int idx = rand() % 3;
-        strcpy(saida, opcoes[idx]);
+            strcpy(saida, opcoes[idx]);
     } else {
+        
         strcpy(saida, "tipo_invalido");
     }
 }
