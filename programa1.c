@@ -56,26 +56,26 @@ int main(int argc, char *argv[]) {
             continue;
         }
 
-        if (strcmp(l.id_sensor, "sensor1") == 0) {
+        if (strcmp(l.id_sensor, "temp") == 0) {
             if (count1 < 2000)
                 sensor1_leituras[count1++] = l;
         }
-        else if (strcmp(l.id_sensor, "sensor2") == 0) {
+        else if (strcmp(l.id_sensor, "umidade") == 0) {
             if (count2 < 2000)
                 sensor2_leituras[count2++] = l;
         }
-        else if (strcmp(l.id_sensor, "sensor3") == 0) {
+        else if (strcmp(l.id_sensor, "status") == 0) {
             if (count3 < 2000)
                 sensor3_leituras[count3++] = l;
         }
-        else if (strcmp(l.id_sensor, "sensor4") == 0) {
+        else if (strcmp(l.id_sensor, "alarme") == 0) {
             if (count4 < 2000)
                 sensor4_leituras[count4++] = l;
         }
         else {
         }
     }
-    
+
     fclose(arq);
 
     qsort(sensor1_leituras, count1, sizeof(Leitura), comparacao_timestamp_desc);
@@ -83,25 +83,25 @@ int main(int argc, char *argv[]) {
     qsort(sensor3_leituras, count3, sizeof(Leitura), comparacao_timestamp_desc);
     qsort(sensor4_leituras, count4, sizeof(Leitura), comparacao_timestamp_desc);
 
-    FILE *arq_sensor1 = abrir_arquivo_sensor("sensor1");
+    FILE *arq_sensor1 = abrir_arquivo_sensor("temp");
     for (int i = 0; i < count1; i++)
         fprintf(arq_sensor1, "%lld %s %s\n", sensor1_leituras[i].timestamp, sensor1_leituras[i].id_sensor, sensor1_leituras[i].valor);
     
         fclose(arq_sensor1);
 
-    FILE *arq_sensor2 = abrir_arquivo_sensor("sensor2");
+    FILE *arq_sensor2 = abrir_arquivo_sensor("umidade");
     for (int i = 0; i < count2; i++)
         fprintf(arq_sensor2, "%lld %s %s\n", sensor2_leituras[i].timestamp, sensor2_leituras[i].id_sensor, sensor2_leituras[i].valor);
     
         fclose(arq_sensor2);
 
-    FILE *arq_sensor3 = abrir_arquivo_sensor("sensor3");
+    FILE *arq_sensor3 = abrir_arquivo_sensor("status");
     for (int i = 0; i < count3; i++)
         fprintf(arq_sensor3, "%lld %s %s\n", sensor3_leituras[i].timestamp, sensor3_leituras[i].id_sensor, sensor3_leituras[i].valor);
     
         fclose(arq_sensor3);
 
-    FILE *arq_sensor4 = abrir_arquivo_sensor("sensor4");
+    FILE *arq_sensor4 = abrir_arquivo_sensor("alarme");
     for (int i = 0; i < count4; i++)
         fprintf(arq_sensor4, "%lld %s %s\n", sensor4_leituras[i].timestamp, sensor4_leituras[i].id_sensor, sensor4_leituras[i].valor);
     
