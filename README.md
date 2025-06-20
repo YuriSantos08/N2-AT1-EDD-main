@@ -44,12 +44,13 @@ gcc programa1.c -o programa1
 # Programa 2 – Consulta por Instante
 gcc programa2.c -o programa2
 ./programa2 <nome_do_sensor> <dia> <mes> <ano> <hora> <min> <seg>
+./programa2 leituras.txt umidade 10 6 2024 14 30 0
 
 # Programa 3 – Geração de Arquivo de Teste
-gcc programa3/main.c programa3/sensores.c -o programa3/programa3
+ gcc programa3/main.c programa3/sensores.c -o programa3/programa3
 
 # Exemplo de execução do Programa 3:
-./programa3/programa3 01 01 2023 00 00 00 31 12 2023 23 59 59 sensor1 int sensor2 bool sensor3 float sensor4 string
+.\programa3\programa3 10 6 2024 0 0 0 20 6 2024 23 59 59 temp CONJ_Z umidade CONJ_Q status TEXTO alarme BINARIO
 ```
 
 Esses comandos gerarão três executáveis:
@@ -133,10 +134,4 @@ Saída: arquivo `leituras.txt` no formato:
 
 ---
 
-## Observações e Dicas
 
-* Validação de argumentos: cada programa verifica número e formato dos argumentos, exibindo mensagens de erro em caso de uso incorreto.
-* Capacidade dos arrays: o Programa 1 suporta até 2000 leituras por sensor; para arquivos maiores, ajuste conforme necessário.
-* Busca binária: o Programa 2 ordena as leituras antes e utiliza busca binária para eficiência.
-
----
