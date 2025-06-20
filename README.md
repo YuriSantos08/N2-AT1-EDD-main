@@ -133,10 +133,4 @@ Saída: arquivo `leituras.txt` no formato:
 
 ---
 
-## Observações e Dicas
 
-* Validação de argumentos: cada programa verifica número e formato dos argumentos, exibindo mensagens de erro em caso de uso incorreto.
-* Capacidade dos arrays: o Programa 1 suporta até 2000 leituras por sensor; para arquivos maiores, ajuste conforme necessário.
-* Busca binária: o Programa 2 ordena as leituras antes e utiliza busca binária para eficiência.
-
----
